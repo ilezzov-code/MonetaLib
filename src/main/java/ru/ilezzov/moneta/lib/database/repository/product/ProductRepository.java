@@ -55,7 +55,7 @@ public class ProductRepository implements DataRepository<Long, Product> {
     }
 
     public CompletableFuture<Product> getByName(final String name) {
-        final Long key = productsByName.get(name);
+        final Long key = productsByName.getIfPresent(name);
 
         if (key == null) {
             return CompletableFuture.supplyAsync(() -> loadFromDatabaseByName(name));
