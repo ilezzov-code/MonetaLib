@@ -23,7 +23,7 @@ public class ProductRepository implements DataRepository<Long, Product> {
     private final SQLDatabase database;
     private final Cache<Long, Product> cache;
 
-    private final ConcurrentHashMap<String, Long> productsByName = new ConcurrentHashMap<>();
+    private final Cache<String, Long> productsByName;
 
     public ProductRepository(final SQLDatabase database) {
         this.database = database;
@@ -36,7 +36,12 @@ public class ProductRepository implements DataRepository<Long, Product> {
                     }
                 })
                 .build();
+    this.productsByName = Caffeine.newBuilder()
+            .maximumSize(1000)
+            .expireAfterWrite(5, TimeUnit.MINUTES)
+            .build();
     }
+
 
     @Override
     public CompletableFuture<Product> get(final Long key) {
