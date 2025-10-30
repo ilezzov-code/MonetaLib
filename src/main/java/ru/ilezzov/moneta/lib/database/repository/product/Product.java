@@ -4,6 +4,8 @@ import ru.ilezzov.moneta.lib.enums.ProductCategory;
 import ru.ilezzov.moneta.lib.enums.ProductStatus;
 import ru.ilezzov.moneta.lib.enums.ProductUnit;
 
+import java.util.Objects;
+
 public class Product {
     private long id;
     private String name;
@@ -157,5 +159,17 @@ public class Product {
                 minimum,
                 status.getStatus()
         );
+    }
+
+    @Override
+    public boolean equals(final Object o) {
+        if (o == null || getClass() != o.getClass()) return false;
+        final Product product = (Product) o;
+        return id == product.id && Double.compare(costPrice, product.costPrice) == 0 && Double.compare(retailPrice, product.retailPrice) == 0 && stock == product.stock && minimum == product.minimum && Objects.equals(name, product.name) && category == product.category && unit == product.unit && Objects.equals(supplier, product.supplier) && status == product.status;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hashCode(id);
     }
 }

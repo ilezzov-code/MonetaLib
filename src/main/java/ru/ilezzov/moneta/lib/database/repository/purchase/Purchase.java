@@ -3,6 +3,7 @@ package ru.ilezzov.moneta.lib.database.repository.purchase;
 import ru.ilezzov.moneta.lib.utils.DateUtil;
 
 import java.time.LocalDateTime;
+import java.util.Objects;
 
 public class Purchase {
     private long id;
@@ -102,5 +103,17 @@ public class Purchase {
                 supplier,
                 comment
         );
+    }
+
+    @Override
+    public boolean equals(final Object o) {
+        if (o == null || getClass() != o.getClass()) return false;
+        final Purchase purchase = (Purchase) o;
+        return id == purchase.id && productId == purchase.productId && Double.compare(costPrice, purchase.costPrice) == 0 && quantity == purchase.quantity && Double.compare(totalPrice, purchase.totalPrice) == 0 && Objects.equals(date, purchase.date) && Objects.equals(productName, purchase.productName) && Objects.equals(supplier, purchase.supplier) && Objects.equals(comment, purchase.comment);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hashCode(id);
     }
 }

@@ -4,6 +4,7 @@ import ru.ilezzov.moneta.lib.enums.Marketplace;
 import ru.ilezzov.moneta.lib.utils.DateUtil;
 
 import java.time.LocalDateTime;
+import java.util.Objects;
 
 public class Sale {
     private long id;
@@ -106,5 +107,17 @@ public class Sale {
                 marketplace.getMarketplace(),
                 comment
         );
+    }
+
+    @Override
+    public boolean equals(final Object o) {
+        if (o == null || getClass() != o.getClass()) return false;
+        final Sale sale = (Sale) o;
+        return id == sale.id && productId == sale.productId && quantity == sale.quantity && Double.compare(unitPrice, sale.unitPrice) == 0 && Double.compare(totalPrice, sale.totalPrice) == 0 && Double.compare(costPrice, sale.costPrice) == 0 && Double.compare(margin, sale.margin) == 0 && Objects.equals(saleDate, sale.saleDate) && Objects.equals(productName, sale.productName) && marketplace == sale.marketplace && Objects.equals(comment, sale.comment);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hashCode(id);
     }
 }

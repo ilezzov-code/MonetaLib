@@ -4,6 +4,7 @@ import ru.ilezzov.moneta.lib.enums.ExpenseCategory;
 import ru.ilezzov.moneta.lib.utils.DateUtil;
 
 import java.time.LocalDateTime;
+import java.util.Objects;
 
 public class Expense {
     private long id;
@@ -67,6 +68,18 @@ public class Expense {
                 amount,
                 comment
         );
+    }
+
+    @Override
+    public boolean equals(final Object o) {
+        if (o == null || getClass() != o.getClass()) return false;
+        final Expense expense = (Expense) o;
+        return id == expense.id && Double.compare(amount, expense.amount) == 0 && Objects.equals(date, expense.date) && category == expense.category && Objects.equals(description, expense.description) && Objects.equals(comment, expense.comment);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hashCode(id);
     }
 }
 
